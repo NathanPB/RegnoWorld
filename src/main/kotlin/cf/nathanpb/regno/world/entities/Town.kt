@@ -6,18 +6,18 @@ import org.bson.types.ObjectId
 
 /*
  * Created by NathanPB
- * at 14/09/2018
+ * at 17/09/2018
  * on regnoworld
  */
 
-class Province(query : Document) : MapEntity(query) {
+class Town constructor(query : Document) : MapEntity(query){
     companion object {
-        val all : ArrayList<Province>
-            get() = MapEntity.all.filter { it is Province } as ArrayList<Province>
+        val all : ArrayList<Town>
+            get() = MapEntity.all.filter { it is Town } as ArrayList<Town>
     }
 
     constructor(id : String) : this(Document().append("_id", ObjectId(id)))
     constructor(x : Int, y : Int) : this(Document().append("x", x).append("y", y))
 
-    override val type = MapEntityType.PROVINCE
+    override val type = MapEntityType.TOWN
 }

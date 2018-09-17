@@ -6,8 +6,8 @@ import org.bson.types.ObjectId
 
 interface IDatabaseEntity {
     fun col() : MongoCollection<Document>
-    val id : String
+    val id : ObjectId
 
-    fun find() = col().find(Document().append("_id", ObjectId(id))).first()
-    fun update(doc : Document) = col().updateOne(Document().append("id", ObjectId(id)), doc)
+    fun find() = col().find(Document().append("_id", id)).first()
+    fun update(doc : Document) = col().updateOne(Document().append("id", id), doc)
 }
