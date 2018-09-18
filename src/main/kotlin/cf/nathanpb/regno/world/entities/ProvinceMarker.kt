@@ -10,10 +10,10 @@ import org.bson.types.ObjectId
  * on regnoworld
  */
 
-class Province(query : Document) : MapEntity(query) {
+class ProvinceMarker(query : Document) : MapEntity(query) {
     companion object {
-        val all : ArrayList<Province>
-            get() = MapEntity.all.filter { it is Province } as ArrayList<Province>
+        val all : ArrayList<ProvinceMarker>
+            get() = MapEntity.all.filter { it is ProvinceMarker } as ArrayList<ProvinceMarker>
     }
 
     constructor(id : String) : this(Document().append("_id", ObjectId(id)))
