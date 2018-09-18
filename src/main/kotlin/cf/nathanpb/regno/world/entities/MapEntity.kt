@@ -1,16 +1,17 @@
 package cf.nathanpb.regno.world.entities
 
+import cf.nathanpb.regno.world.core.Core
 import cf.nathanpb.regno.world.enum.MapEntityType
 import cf.nathanpb.regno.world.exceptions.InvalidInstantiationException
 import com.mongodb.client.MongoCollection
+import com.mongodb.client.MongoDatabase
 import org.bson.Document
 import org.bson.types.ObjectId
 import java.lang.RuntimeException
 
 open abstract class MapEntity(val query : Document) : IDatabaseEntity {
     companion object {
-        //todo find the collection from database
-        val col = null as MongoCollection<Document>
+        val col = (Core.db as MongoDatabase).getCollection("map")
 
         val all : ArrayList<MapEntity>
             get() {
