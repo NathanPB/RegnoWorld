@@ -1,6 +1,9 @@
 package cf.nathanpb.regno.world.boot
 
 import cf.nathanpb.regno.world.core.Core
+import cf.nathanpb.regno.world.entities.MapEntity
+import cf.nathanpb.regno.world.entities.ProvinceMarker
+import cf.nathanpb.regno.world.entities.Town
 import com.mongodb.MongoClient
 import com.mongodb.MongoCredential
 import com.mongodb.ServerAddress
@@ -82,8 +85,9 @@ class Boot {
             count++
         }
 
+        Core.logger.info("Regno World '${Core.config.getString("world_display")} | ${Core.config.getString("world_id")}' is Done! ${Core.initTime.timeSince()}")
+        Core.logger.info("Loaded ${MapEntity.all.size} map entities (${Town.all.size} Towns | ${ProvinceMarker.all.size} Province Markers)")
         Core.ready = true
-        Core.logger.info("Regno World is Done! ${Core.initTime.timeSince()}")
     }
 
 
