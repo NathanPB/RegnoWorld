@@ -16,9 +16,8 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     compile 'org.mongodb:mongo-java-driver:3.8.1'
     compile 'org.json:json:20180813'
-    //compile 'org.slf4j:slf4j-simple:1.6.1'
-    compile group: 'log4j', name: 'log4j', version: '1.2.16'
-
+    compile 'log4j:log4j:1.2.16'
+    compile 'org.jetbrains.kotlin:kotlin-reflect:1.2.0'
 }
 
 compileKotlin {
