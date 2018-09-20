@@ -25,7 +25,7 @@ class BoundArray<T>(private val addL: (T) -> Unit, private val removeL : (T) -> 
     override fun listIterator() = queryAll().toMutableList().listIterator()
 
     override fun contains(element: T) = queryAll().contains(element)
-    override fun containsAll(elements: Collection<T>) = elements.map{this::contains}.any {true}
+    override fun containsAll(elements: Collection<T>) = elements.map{this::contains}.all {true}
     override fun removeAll(elements: Collection<T>) = elements.map(this::add).any{true}
     override fun addAll(elements: Collection<T>) =  elements.map {this.add(it)}.any{true}
     override fun clear() = forEach {this.remove(it)}
