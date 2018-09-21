@@ -4,6 +4,9 @@ import cf.nathanpb.regno.world.core.Core
 import cf.nathanpb.regno.world.entities.MapEntity
 import cf.nathanpb.regno.world.entities.ProvinceMarker
 import cf.nathanpb.regno.world.entities.Town
+import cf.nathanpb.regno.world.troops.Spears
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonParser
 import com.mongodb.MongoClient
 import com.mongodb.MongoCredential
 import com.mongodb.ServerAddress
@@ -23,18 +26,80 @@ class Boot {
 
     private val phases = arrayListOf(
             Phase("Loading Configurations"){
-                val file = File("config.json")
+                val file = Core.configFile
                 if(!file.exists()) {
                     file.createNewFile()
-                    val fos = FileOutputStream(file)
-                    val ps = PrintStream(fos)
-                    ps.print("{}")
-                    fos.close()
-                    ps.close()
+                    JSONObject().writeTo(file)
                 }
                 val fr = FileReader(file)
+
                 Core.config = JSONObject(fr.readText())
                 fr.close()
+
+                if(!Core.config.has("db_name")){
+                    Core.config.put("db_name", "regno_world")
+                }
+                if(!Core.config.has("db_port")){
+                    Core.config.put("db_port", 27017)
+                }
+                if(!Core.config.has("db_user")){
+                    Core.config.put("db_user", "admin")
+                }
+                if(!Core.config.has("db_pwd")){
+                    Core.config.put("db_pwd", "admin")
+                }
+                if(!Core.config.has("db_host")){
+                    Core.config.put("db_host", "localhost")
+                }
+                if(!Core.config.has("world_id")){
+                    Core.config.put("world_id", "RegnoWorld")
+                }
+                if(!Core.config.has("world_display")){
+                    Core.config.put("world_display", "Regno World")
+                }
+                if(!Core.config.has("troops")){
+                    Core.config.put("troops", JSONObject())
+                }
+            },
+            Phase("Registering Troops"){
+
+                //Register Troops
+                Core.troops.add(Spears())
+
+                //Check for troops configurations on config file
+                val troops = Core.config.getJSONObject("troops")
+                for(from in Core.troops.map{it.id}){
+                    if(!troops.has(from)){
+                        troops.put(from, JSONObject())
+                    }
+                    if(!troops.getJSONObject(from).has("cost")){
+                        troops.getJSONObject(from).put("cost", JSONObject())
+                    }
+                    if(!troops.getJSONObject(from).has("speed")){
+                        troops.getJSONObject(from).put("speed", 0)
+                    }
+                    if(!troops.getJSONObject(from).has("enable")){
+                        troops.getJSONObject(from).put("enable", true)
+                    }
+
+                    val obj = troops.getJSONObject(from).getJSONObject("cost")
+                    for(mode in arrayOf("wood", "clay", "iron", "food", "provisions")){
+                        if(!obj.has(mode)){
+                            obj.put(mode, 0)
+                        }
+                    }
+                    for (mode in arrayOf("def", "atk")){
+                        if(!troops.getJSONObject(from).has(mode)){
+                            troops.getJSONObject(from).put(mode, JSONObject())
+                        }
+                        for(against in Core.troops.map{it.id}){
+                            if(!troops.getJSONObject(from).getJSONObject(mode).has(against)){
+                                troops.getJSONObject(from).getJSONObject(mode).put(against, 0)
+                            }
+                        }
+                    }
+                }
+                Core.config.writeTo(Core.configFile)
             },
             Phase("Connecting to Database"){
                 Core.mongoClient = MongoClient(
@@ -108,6 +173,13 @@ class Boot {
         } else {
             return TimeUnit.MILLISECONDS.toMinutes(time).toString()+"min"
         }
+    }
+
+    fun JSONObject.writeTo(file : File){
+        val str = GsonBuilder().setPrettyPrinting().create().toJson(JsonParser().parse(this.toString()).asJsonObject)
+        val fw = FileWriter(file)
+        fw.write(str)
+        fw.close()
     }
 }
 

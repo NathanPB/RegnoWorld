@@ -1,10 +1,11 @@
 package cf.nathanpb.regno.world.core
 
+import cf.nathanpb.regno.world.troops.TroopType
 import com.mongodb.MongoClient
 import com.mongodb.client.MongoDatabase
 import org.apache.log4j.Logger
-import org.apache.log4j.spi.LoggerFactory
 import org.json.JSONObject
+import java.io.File
 
 /*
  * Created by NathanPB
@@ -18,8 +19,12 @@ class Core {
         val version = "0.1 SNAPSHOT"
         val initTime = System.currentTimeMillis()
         var ready = false
+
         var config: JSONObject = JSONObject()
+        val configFile = File("config.json")
+
         var mongoClient : MongoClient? = null
         var db : MongoDatabase? = null
+        val troops = ArrayList<TroopType>()
     }
 }
