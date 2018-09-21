@@ -18,6 +18,7 @@ dependencies {
     compile 'org.json:json:20180813'
     compile 'log4j:log4j:1.2.16'
     compile 'org.jetbrains.kotlin:kotlin-reflect:1.2.0'
+    compile 'com.google.code.gson:gson:2.7'
 }
 
 compileKotlin {
