@@ -18,7 +18,7 @@ open abstract class MapEntity(val query : Document) : IDatabaseEntity {
                 return col.find()
                     . map {
                         MapEntityType.values()
-                            .filter { type -> type.id == it.getInteger("type") }
+                            .filter { type -> type.id == it.getString("type") }
                             .firstOrNull()
                             ?.clazz?.constructors?.filter { c ->
                                 c.typeParameters.any{t -> t is Document}

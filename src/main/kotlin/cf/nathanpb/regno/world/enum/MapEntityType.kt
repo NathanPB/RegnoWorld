@@ -10,7 +10,7 @@ import kotlin.reflect.KClass
  * on regnoworld
  */
 
-enum class MapEntityType(val id : Int, val clazz : KClass<*>) {
-    TOWN(0, Town::class),
-    PROVINCE(1, ProvinceMarker::class)
+enum class MapEntityType(val id : String, val clazz : KClass<*>) {
+    TOWN("town", Town::class),
+    PROVINCE("province", ProvinceMarker::class)
 }
