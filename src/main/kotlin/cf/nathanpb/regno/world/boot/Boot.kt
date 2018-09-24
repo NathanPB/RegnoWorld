@@ -4,6 +4,7 @@ import cf.nathanpb.regno.world.core.Core
 import cf.nathanpb.regno.world.entities.MapEntity
 import cf.nathanpb.regno.world.entities.ProvinceMarker
 import cf.nathanpb.regno.world.entities.Town
+import cf.nathanpb.regno.world.enum.TroopType
 import cf.nathanpb.regno.world.troops.Troop
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
@@ -64,11 +65,7 @@ class Boot {
             Phase("Registering Troops"){
 
                 //Register Troops
-                Core.troops +
-                        Troop("spearman") +
-                        Troop("swordman") +
-                        Troop("archer") +
-                        Troop("beserker")
+                TroopType.values().forEach { Core.troops.add(it.instance) }
 
                 //Check for troops configurations on config file
                 val troops = Core.config.getJSONObject("troops")
