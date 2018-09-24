@@ -9,7 +9,7 @@ import java.lang.Exception
  * on regnoworld
  */
 
-abstract class TroopType(val id : String) {
+class Troop(val id : String) {
     val config = Core.config.getJSONObject("troops").getJSONObject(id)
 
     val enabled : Boolean
@@ -31,7 +31,7 @@ abstract class TroopType(val id : String) {
     val woodTaken : Int
         get() = config.getJSONObject("cost").getInt("wood")
 
-    fun def(type : TroopType) : Int {
+    fun def(type : Troop) : Int {
         return try{
             config.getJSONObject("def")
                 .getInt(type.id)
@@ -40,7 +40,7 @@ abstract class TroopType(val id : String) {
         }
     }
 
-    fun atk(type : TroopType) : Int {
+    fun atk(type : Troop) : Int {
         return try{
             config.getJSONObject("atk")
                 .getInt(type.id)
