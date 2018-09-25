@@ -1,6 +1,6 @@
 package cf.nathanpb.regno.world.core
 
-import cf.nathanpb.regno.world.troops.TroopType
+import cf.nathanpb.regno.world.troops.Troop
 import com.mongodb.MongoClient
 import com.mongodb.client.MongoDatabase
 import org.apache.log4j.Logger
@@ -25,6 +25,6 @@ class Core {
 
         var mongoClient : MongoClient? = null
         var db : MongoDatabase? = null
-        val troops = ArrayList<TroopType>()
+        val troops = ArrayList<Troop>()
     }
 }
