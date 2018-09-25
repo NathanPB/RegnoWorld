@@ -114,13 +114,8 @@ class Boot {
                 Core.db = Core.mongoClient?.getDatabase(Core.config.getString("db_name"))
             },
             Phase("Checking Database"){
-                if(Core.db != null){
-                    val db = Core.db as MongoDatabase
-                    if(!db.hasCollection("map")){
-                        Core.logger.warn("Collection 'map' doesn't exists! Creating one...")
-                        db.createCollection("map")
-                    }
-                }
+                Core.db?.checkCollection("map")
+                Core.db?.checkCollection("army")
             }
     )
 
@@ -163,6 +158,13 @@ class Boot {
 
     fun MongoDatabase.hasCollection(name : String) : Boolean {
         return this.listCollectionNames().contains(name)
+    }
+
+    fun MongoDatabase.checkCollection(name : String) {
+        if(!this.hasCollection(name)){
+            Core.logger.warn("Collection '$name' doesn't exists! Creating one...")
+            this.createCollection("map")
+        }
     }
 
     fun Long.timeSince() : String {
