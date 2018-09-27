@@ -1,5 +1,6 @@
 package cf.nathanpb.regno.world.core
 
+import cf.nathanpb.regno.world.hero.items.HeroItemType
 import cf.nathanpb.regno.world.troops.Troop
 import com.mongodb.MongoClient
 import com.mongodb.client.MongoDatabase
@@ -26,5 +27,6 @@ class Core {
         var mongoClient : MongoClient? = null
         var db : MongoDatabase? = null
         val troops = ArrayList<Troop>()
+        val heroItems = ArrayList<HeroItemType>()
     }
 }
